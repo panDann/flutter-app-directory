@@ -1,4 +1,4 @@
-name: flutter_maple
+name: maple_joe
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -29,6 +29,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  get:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -51,11 +52,13 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-  
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/images/girl.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -87,6 +90,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-  assets:
-    - assets/images/girl.jpg
-    - assets/i18n/eng.json

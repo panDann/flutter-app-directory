@@ -1,161 +1,150 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_maple/constants/assest_path.dart';
+import 'package:get/get.dart';
+import 'package:maple_joe/constants/assest_path.dart';
 
 void main() {
-  runApp(BooksApp());
+  // runApp(const GetMaterialApp(home: App(),) );
+  runApp(const GetMaterialApp(home: App()) );
 }
 
-class Book {
-  final String title;
-  final String author;
-  String? avatar;
-
-  Book(this.title, this.author, [this.avatar]);
+class Controller extends GetxController {
+  var count = 200.obs;
+  increment()=>count+=100;
 }
 
-class BooksApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _BooksAppState();
-}
-
-class _BooksAppState extends State<BooksApp> {
-  late Book? _selectedBook = null;
-
-  List<Book> books = [
-    Book('花菇凉', 'this is a special girl', imageURL["girl"]),
-    Book('Too Like the Lightning', 'Ada Palmer'),
-    Book('Kindred', 'Octavia E. Butler'),
-    Book('Kindred', 'Octavia E. Butler'),
-    Book('Kindred', 'Octavia E. Butler'),
-    Book('Kindred', 'Octavia E. Butler'),
-    Book('Kindred', 'Octavia E. Butler'),
-    Book('Kindred', 'Octavia E. Butler'),
-    Book('Kindred', 'Octavia E. Butler'),
-  ];
+class App extends StatelessWidget{
+  const App({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return MaterialApp(
-      title: 'Books App',
-      home: Navigator(
-        pages: [
-          MaterialPage(
-            key: const ValueKey('BooksListPage'),
-            child: BooksListScreen(
-              books: books,
-              onTapped: _handleBookTapped,
-            ),
-          ),
-          if (_selectedBook != null)
-            BookDetailsPage(book: _selectedBook as Book)
-        ],
-        onPopPage: (route, result) {
-          if (!route.didPop(result)) {
-            return false;
-          }
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.blue ,
+          accentColor: Colors.greenAccent,
+          // backgroundColor: Colors.pink,
+          // brightness: Brightness.dark,
 
-          // Update the list of pages by setting _selectedBook to null
-          setState(() {
-            _selectedBook = null;
-          });
 
-          return true;
-        },
+        ),
+        appBarTheme:const  AppBarTheme(
+          toolbarHeight: 40,
+          // backgroundColor: Colors.greenAccent,
+
+        ),
+        snackBarTheme:const  SnackBarThemeData(
+          backgroundColor: Colors.pink,
+
+        ),
+
+
       ),
-    );
-  }
-
-  void _handleBookTapped(Book book) {
-    setState(() {
-      _selectedBook = book;
-    });
-  }
-}
-
-class BookDetailsPage extends Page {
-  final Book book;
-
-  BookDetailsPage({
-    required this.book,
-  }) : super(key: ValueKey(book));
-
-  Route createRoute(BuildContext context) {
-    return MaterialPageRoute(
-      settings: this,
-      builder: (BuildContext context) {
-        return BookDetailsScreen(book: book);
+      title: 'hero',
+      // home:const MainPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const Home(),
+        '/detail': (context) => const DetailScreen(),
       },
     );
   }
+
 }
 
-class BooksListScreen extends StatelessWidget {
-  final List<Book> books;
-  final ValueChanged<Book> onTapped;
-
-  BooksListScreen({
-    required this.books,
-    required this.onTapped,
-  });
+class Home extends StatelessWidget{
+  const Home({Key?key}):super(key:key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: ListView(
-        children: [
-          for (var book in books)
-            ListTile(
-              title: SelectableText(book.title),
-              subtitle: Text(book.author),
-              onTap: () => onTapped(book),
-            )
-        ],
+  Widget build(BuildContext context){
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+
+        appBar: AppBar(
+          toolbarHeight: 0,
+          bottom: const TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.directions_car)),
+              Tab(icon: Icon(Icons.directions_transit)),
+            ],
+          ),
+        ),
+        body: const TabBarView(children: [
+          Icon(Icons.directions_car),
+          Icon(Icons.directions_transit),
+        ]),
       ),
     );
   }
 }
+class ScreenArgument {
+  final String title;
+  ScreenArgument( this.title);
+}
 
-class BookDetailsScreen extends StatelessWidget {
-  final Book book;
+class EObx {
 
-  BookDetailsScreen({
-    required this.book,
-  });
+}
+
+class MainPage extends StatelessWidget{
+  const MainPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+    final Controller ctl = Get.put(Controller());
     return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (book != null) ...[
-              if (book.avatar != null)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    book.avatar as String,
-                  ),
-                ),
-              Row(
-                
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(book.title,
-                      style: Theme.of(context).textTheme.headline6),
-                  TextButton(onPressed: () => {
-                    
-                  }, child: const Text('buy now'))
-                ],
-              ),
-              Text(book.author, style: Theme.of(context).textTheme.subtitle1),
-            ],
-          ],
-        ),
+      appBar:AppBar(
+        title:Obx(()=>SelectableText('main-${ctl.count}')),
       ),
+      body:GestureDetector(
+        onTap: (){
+          ctl.increment();
+          _generateBackMsg(context);
+        },
+
+        child:Obx(()=>Hero(
+          tag: "main",
+          child: Image.network(
+            'https://picsum.photos/250?image=9',
+            width: 222,
+          ),
+        )) ,
+      ),
+      floatingActionButton: FloatingActionButton(child:const Text('add') ,onPressed: ctl.increment,),
+    );
+  }
+  void _generateBackMsg(BuildContext context) async{
+    final rsl = await Navigator.pushNamed(context, '/detail',arguments: ScreenArgument('girl'));
+    // ScaffoldMessenger.of(context)
+    // ..removeCurrentSnackBar()
+    // ..showSnackBar(SnackBar(content: Text('$rsl')));
+  }
+}
+
+class DetailScreen extends StatelessWidget{
+  const DetailScreen({Key? key}) : super(key: key);
+
+  Widget build(BuildContext context){
+    final agrs = ModalRoute.of(context)!.settings.arguments as ScreenArgument;
+    final Controller ctl = Get.find();
+
+    return Scaffold(
+        appBar:AppBar(
+          title:  Obx(()=>Text(agrs.title+'${ctl.count}')),
+        ),
+        body:GestureDetector(
+          onTap: ()=>{
+            Navigator.pop(context,'hi boy')
+          },
+          child: Hero(
+            tag: "main",
+            child: Image.asset(
+              imageURL['girl'],
+            ),
+          ),
+        )
     );
   }
 }

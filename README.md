@@ -1,4 +1,4 @@
-# flutter_maple
+# maple_joe
 
 A new Flutter project.
 
