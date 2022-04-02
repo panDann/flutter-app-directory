@@ -2,16 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maple_joe/constants/assest_path.dart';
+import 'package:maple_joe/assets/i18n/index.dart';
+import 'package:maple_joe/module/dashboard/screens/home.dart';
 
 void main() {
   // runApp(const GetMaterialApp(home: App(),) );
-  runApp(const GetMaterialApp(home: App()) );
-}
-
-class Controller extends GetxController {
-  var count = 200.obs;
-  increment()=>count+=100;
+  runApp( GetMaterialApp(
+      translations: I18nMsg(),
+      locale:const  Locale('zh','ch'),
+      home:const App()) );
 }
 
 class App extends StatelessWidget{
@@ -20,6 +19,7 @@ class App extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return MaterialApp(
+
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.blue ,
@@ -30,7 +30,7 @@ class App extends StatelessWidget{
 
         ),
         appBarTheme:const  AppBarTheme(
-          toolbarHeight: 40,
+          // toolbarHeight: 40,
           // backgroundColor: Colors.greenAccent,
 
         ),
@@ -46,105 +46,8 @@ class App extends StatelessWidget{
       initialRoute: '/',
       routes: {
         '/': (context) => const Home(),
-        '/detail': (context) => const DetailScreen(),
       },
     );
   }
 
-}
-
-class Home extends StatelessWidget{
-  const Home({Key?key}):super(key:key);
-
-  @override
-  Widget build(BuildContext context){
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-
-        appBar: AppBar(
-          toolbarHeight: 0,
-          bottom: const TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.directions_car)),
-              Tab(icon: Icon(Icons.directions_transit)),
-            ],
-          ),
-        ),
-        body: const TabBarView(children: [
-          Icon(Icons.directions_car),
-          Icon(Icons.directions_transit),
-        ]),
-      ),
-    );
-  }
-}
-class ScreenArgument {
-  final String title;
-  ScreenArgument( this.title);
-}
-
-class EObx {
-
-}
-
-class MainPage extends StatelessWidget{
-  const MainPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context){
-    final Controller ctl = Get.put(Controller());
-    return Scaffold(
-      appBar:AppBar(
-        title:Obx(()=>SelectableText('main-${ctl.count}')),
-      ),
-      body:GestureDetector(
-        onTap: (){
-          ctl.increment();
-          _generateBackMsg(context);
-        },
-
-        child:Obx(()=>Hero(
-          tag: "main",
-          child: Image.network(
-            'https://picsum.photos/250?image=9',
-            width: 222,
-          ),
-        )) ,
-      ),
-      floatingActionButton: FloatingActionButton(child:const Text('add') ,onPressed: ctl.increment,),
-    );
-  }
-  void _generateBackMsg(BuildContext context) async{
-    final rsl = await Navigator.pushNamed(context, '/detail',arguments: ScreenArgument('girl'));
-    // ScaffoldMessenger.of(context)
-    // ..removeCurrentSnackBar()
-    // ..showSnackBar(SnackBar(content: Text('$rsl')));
-  }
-}
-
-class DetailScreen extends StatelessWidget{
-  const DetailScreen({Key? key}) : super(key: key);
-
-  Widget build(BuildContext context){
-    final agrs = ModalRoute.of(context)!.settings.arguments as ScreenArgument;
-    final Controller ctl = Get.find();
-
-    return Scaffold(
-        appBar:AppBar(
-          title:  Obx(()=>Text(agrs.title+'${ctl.count}')),
-        ),
-        body:GestureDetector(
-          onTap: ()=>{
-            Navigator.pop(context,'hi boy')
-          },
-          child: Hero(
-            tag: "main",
-            child: Image.asset(
-              imageURL['girl'],
-            ),
-          ),
-        )
-    );
-  }
 }

@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+
+// import 'package:flutter_html/flutter_html.dart';
+import 'package:get/get.dart';
+import 'package:maple_joe/widgets/virtual_webview.dart';
+
+// import 'package:html/dom.dart' as dom;
+// import 'package:maple_joe/widgets/virtual_webview.dart';
+// import 'package:webview_flutter/webview_flutter.dart';
+
+class MapSearch extends StatefulWidget {
+  const MapSearch({Key? key}) : super(key: key);
+
+  @override
+  _MapSearch createState() => _MapSearch();
+}
+
+class _MapSearch extends State<MapSearch> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  TextEditingController searchContr = TextEditingController();
+  var htmlContent = '3333';
+
+  onSearch() async {
+    // if (_formKey.currentState!.validate()) {
+    //
+    // }
+    var res = await GetConnect()
+        .get('https://www.baidu.com/s?wd=' + searchContr.text);
+    setState(() {
+      htmlContent = res.bodyString as String;
+    });
+  }
+
+  getHtmlContent() {}
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Form(
+            key: _formKey,
+            child: Container(
+              padding: EdgeInsets.only(
+                bottom: 10,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: TextFormField(
+                      // style: TextStyle(height: .2),
+                      controller: searchContr,
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.all(0),
+                        hintText: 'Search ',
+
+                        // border: OutlineInputBorder(),
+                      ),
+
+                      onChanged: (text) {
+                        text = text.toLowerCase();
+                      },
+                      // validator: (String? text) {
+                      //   if (text == null || text.isEmpty) {
+                      //     return '请输入内容';
+                      //   }
+                      //   return null;
+                      // },
+                    ),
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: onSearch,
+                      ))
+                ],
+              ),
+            )),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(10),
+
+        child: const Center(
+          child: VirtualWebView(
+            url: 'http://cn.bing.com',
+          ),
+        ),
+      ),
+      // body: Center(child:SingleChildScrollView(child: Text(
+      //   htmlContent,
+      // ),),),
+    );
+  }
+}
