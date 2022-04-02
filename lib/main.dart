@@ -22,9 +22,9 @@ class App extends StatelessWidget{
 
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.blue ,
+          primarySwatch: Colors.orange ,
           accentColor: Colors.greenAccent,
-          // backgroundColor: Colors.pink,
+          backgroundColor: Colors.pink,
           // brightness: Brightness.dark,
 
 

@@ -19,20 +19,23 @@ class _MapSearch extends State<MapSearch> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController searchContr = TextEditingController();
-  var htmlContent = '3333';
+  var searchUrl = '';
 
   onSearch() async {
     // if (_formKey.currentState!.validate()) {
     //
     // }
-    var res = await GetConnect()
-        .get('https://www.baidu.com/s?wd=' + searchContr.text);
-    setState(() {
-      htmlContent = res.bodyString as String;
-    });
+    // var res = await GetConnect()
+    //     .get('https://www.baidu.com/s?wd=' + searchContr.text);
+    if(searchContr.text!=''){
+      setState(() {
+        searchUrl = 'http://cn.bing.com?q='+searchContr.text;
+
+      });
+    }
   }
 
-  getHtmlContent() {}
+  getsearchUrl() {}
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,6 @@ class _MapSearch extends State<MapSearch> {
 
                         // border: OutlineInputBorder(),
                       ),
-
                       onChanged: (text) {
                         text = text.toLowerCase();
                       },
@@ -80,17 +82,14 @@ class _MapSearch extends State<MapSearch> {
             )),
       ),
       body: Container(
-        padding: EdgeInsets.all(10),
-
-        child: const Center(
+        padding:const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+        child: Center(
           child: VirtualWebView(
-            url: 'http://cn.bing.com',
+            key: Key(searchUrl),
+            url: searchUrl,
           ),
         ),
       ),
-      // body: Center(child:SingleChildScrollView(child: Text(
-      //   htmlContent,
-      // ),),),
     );
   }
 }
