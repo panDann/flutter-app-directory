@@ -27,10 +27,9 @@ class _MapSearch extends State<MapSearch> {
     // }
     // var res = await GetConnect()
     //     .get('https://www.baidu.com/s?wd=' + searchContr.text);
-    if(searchContr.text!=''){
+    if (searchContr.text != '') {
       setState(() {
-        searchUrl = 'http://cn.bing.com?q='+searchContr.text;
-
+        searchUrl = 'http://cn.bing.com?q=' + searchContr.text;
       });
     }
   }
@@ -44,7 +43,7 @@ class _MapSearch extends State<MapSearch> {
         title: Form(
             key: _formKey,
             child: Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 bottom: 10,
               ),
               child: Row(
@@ -57,18 +56,17 @@ class _MapSearch extends State<MapSearch> {
                       decoration: const InputDecoration(
                         contentPadding: EdgeInsets.all(0),
                         hintText: 'Search ',
-
                         // border: OutlineInputBorder(),
                       ),
                       onChanged: (text) {
                         text = text.toLowerCase();
                       },
-                      // validator: (String? text) {
-                      //   if (text == null || text.isEmpty) {
-                      //     return '请输入内容';
-                      //   }
-                      //   return null;
-                      // },
+                      validator: (String? text) {
+                        if (text == null || text.isEmpty) {
+                          return '请输入内容';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   Expanded(
@@ -82,7 +80,7 @@ class _MapSearch extends State<MapSearch> {
             )),
       ),
       body: Container(
-        padding:const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: Center(
           child: VirtualWebView(
             key: Key(searchUrl),

@@ -56,7 +56,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/girl.jpg
-    - assets/i18n/index.dart
+    - assets/i18n/
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

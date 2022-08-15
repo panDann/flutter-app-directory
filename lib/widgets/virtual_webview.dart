@@ -3,6 +3,8 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_html/shims/dart_ui.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class VirtualWebView extends StatefulWidget {
@@ -15,6 +17,7 @@ class VirtualWebView extends StatefulWidget {
 }
 
 class VirtualWebViewState extends State<VirtualWebView> {
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +31,7 @@ class VirtualWebViewState extends State<VirtualWebView> {
     //   return
     // }
     // IFrameElement().src=widget.url;
+    //  platformViewRegistry.registerViewFactory(viewTypeId, (viewId) => null)
     return WebView(
       onWebResourceError: (WebResourceError webviewerrr) {
         print('error: ${webviewerrr.description}');

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maple_joe/constants/assest_path.dart';
+import 'package:maple_joe/constants/asset_path.dart';
 
 void main() {
   runApp(BooksApp());
