@@ -22,8 +22,7 @@ class MapTheme {
       ),
       appBarTheme:const  AppBarTheme(
         // toolbarHeight: 40,
-        // backgroundColor: Colors.greenAccent,
-
+        backgroundColor: Colors.greenAccent,
       ),
       bottomNavigationBarTheme:const BottomNavigationBarThemeData(
           backgroundColor: Colors.grey,

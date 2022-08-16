@@ -8,7 +8,7 @@ class MapRoute {
   static String initRoute = '/';
   MapRoute(BuildContext context){
     routes = <String,Widget Function(BuildContext)> {
-      '/':(context)=>const StackScreen(),
+      '/':(context)=> StackScreen(),
       '/home':(context)=>const MapSearch(),
       '/ranking':(context)=>const RankingScreen(),
       '/mine':(context)=>const MineScreen(),

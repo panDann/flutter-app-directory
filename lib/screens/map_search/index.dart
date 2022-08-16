@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-
-// import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
+import 'package:maple_joe/config/i18n/index.dart';
 import 'package:maple_joe/widgets/virtual_webview.dart';
-
-// import 'package:html/dom.dart' as dom;
-// import 'package:maple_joe/widgets/virtual_webview.dart';
-// import 'package:webview_flutter/webview_flutter.dart';
-
+var transText = getLangText('map_search');
 class MapSearch extends StatefulWidget {
   const MapSearch({Key? key}) : super(key: key);
 
@@ -53,9 +48,9 @@ class _MapSearch extends State<MapSearch> {
                     child: TextFormField(
                       // style: TextStyle(height: .2),
                       controller: searchContr,
-                      decoration: const InputDecoration(
+                      decoration:  InputDecoration(
                         contentPadding: EdgeInsets.all(0),
-                        hintText: 'Search ',
+                        hintText: transText['search_hint'],
                         // border: OutlineInputBorder(),
                       ),
                       onChanged: (text) {
