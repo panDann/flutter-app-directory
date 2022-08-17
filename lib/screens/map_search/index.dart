@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maple_joe/config/i18n/index.dart';
-import 'package:maple_joe/widgets/virtual_webview.dart';
+import 'package:maple_joe/screens/map_search/widgets/virtual_webview.dart';
 var transText = getLangText('map_search');
 class MapSearch extends StatefulWidget {
   const MapSearch({Key? key}) : super(key: key);
@@ -28,8 +28,6 @@ class _MapSearch extends State<MapSearch> {
       });
     }
   }
-
-  getsearchUrl() {}
 
   @override
   Widget build(BuildContext context) {

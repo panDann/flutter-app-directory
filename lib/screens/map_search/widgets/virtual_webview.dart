@@ -27,9 +27,9 @@ class VirtualWebViewState extends State<VirtualWebView> {
 
   @override
   Widget build(BuildContext context) {
-    // if(defaultTargetPlatform==TargetPlatform.windows){
-    //   return
-    // }
+    if(defaultTargetPlatform==TargetPlatform.windows){
+      return const Text('unsupported platform');
+    }
     // IFrameElement().src=widget.url;
     //  platformViewRegistry.registerViewFactory(viewTypeId, (viewId) => null)
     return WebView(

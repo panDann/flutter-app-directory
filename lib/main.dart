@@ -7,7 +7,7 @@ import 'package:maple_joe/screens/stack.dart';
 import 'package:maple_joe/store/global.dart';
 
 void main() {
-
+  WidgetsFlutterBinding.ensureInitialized();
   // runApp(const GetMaterialApp(home: App(),) );
   runApp( GetMaterialApp(
       translations: I18nMsg(),
