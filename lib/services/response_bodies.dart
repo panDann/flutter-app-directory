@@ -1,6 +1,5 @@
 
 class ZhihuHotRankingItem {
-  late String type;
   late Map<String,dynamic> target;
 }
 

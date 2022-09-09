@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:maple_joe/config/i18n/index.dart';
-import 'package:maple_joe/services/index.dart';
-import 'package:maple_joe/services/response_bodies.dart';
+import 'package:maple_joe/screens/webview/index.dart';
+import 'package:maple_joe/services/ranking.dart';
 
 var tabs = getLangText('ranking')['tabs'];
 
@@ -29,16 +28,7 @@ class _MapSearch extends State<RankingScreen> {
           ),
           body: TabBarView(
             children: [
-              FutureBuilder(
-                  future: MapService.get<ZhihuHotRankingResBody>(
-                      'https://www.zhihu.com/api/v3/feed/topstory/hot-lists/total?limit=50&desktop=true'),
-                  builder: (BuildContext context, AsyncSnapshot snap) {
-                    if (snap.connectionState == ConnectionState.waiting) {
-                      return Icon(Icons.directions_transit);
-                    } else {
-                      return Icon(Icons.directions_bike);
-                    }
-                  }),
+              zhihuW(),
               Icon(Icons.directions_transit),
               Icon(Icons.directions_bike),
             ],
@@ -46,3 +36,39 @@ class _MapSearch extends State<RankingScreen> {
         ));
   }
 }
+
+var zhihuW = () => FutureBuilder(
+    future: RankingServ.getZhihuRanking(),
+    builder: (BuildContext context, AsyncSnapshot snap) {
+      switch (snap.connectionState) {
+        case ConnectionState.waiting:
+          return const Text('loading...');
+        case ConnectionState.done:
+          var _clt =
+              ScrollController(initialScrollOffset: 0, keepScrollOffset: true);
+          var list = snap.data.data['data'];
+          return ListView.builder(
+            padding: EdgeInsets.zero,
+            controller: _clt,
+            itemCount: list.length,
+            itemBuilder: (BuildContext context, int index) => ListTile(
+              title: Text(
+                '${index + 1}.${list[index]['target']['title']}',
+                maxLines: 1,
+                overflow: TextOverflow.clip,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              trailing: const Icon(Icons.keyboard_arrow_right_rounded),
+              shape: Border(bottom: BorderSide(color: Colors.grey.shade50)),
+              onTap: () => {
+                Navigator.of(context).push(MaterialPageRoute(builder:(context)=> WebViewScreen(title: list[index]['target']['title'],url: list[index]['target']['url'],)))
+                // Navigator.pushNamed(context, routeNames['webview']??'',)
+              },
+            ),
+          );
+        default:
+          return Icon(Icons.settings);
+      }
+    });
